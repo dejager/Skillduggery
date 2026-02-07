@@ -2,6 +2,8 @@
 
 Skillduggery is a macOS menu bar security scanner for AI Agent Skills.
 
+<img width="425" height="414" alt="Screenshot" src="https://github.com/user-attachments/assets/53b376c4-4496-4f5f-8d0a-6b92443c2d49" />
+
 It scans OpenAI and Claude skill folders for prompt injection, data exfiltration, command injection, and other high-risk patterns using a full Swift pipeline:
 
 - Pattern-based detection (`YAML` signatures + `YARA`-derived matching)
