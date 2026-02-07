@@ -45,6 +45,21 @@ struct ScheduleServiceTests {
     #expect(delegate.scheduledCount == 0)
     service.stop()
   }
+
+  @Test
+  func disablingScheduleStopsImmediateCatchUpRequests() {
+    let service = ScheduleService(interval: 24 * 60 * 60)
+    let delegate = ScheduleDelegateSpy()
+    service.delegate = delegate
+
+    service.start(enabled: true) { nil }
+    service.start(enabled: false) { nil }
+    service.handleLaunchOrWake()
+
+    #expect(delegate.catchUpCount == 0)
+    #expect(delegate.scheduledCount == 0)
+    service.stop()
+  }
 }
 
 @MainActor

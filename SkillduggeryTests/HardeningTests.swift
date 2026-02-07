@@ -3,6 +3,33 @@ import Testing
 @testable import Skillduggery
 
 struct Release2HardeningTests {
+  @MainActor
+  @Test
+  func menuRemainsInteractiveDuringActiveScanState() async throws {
+    let tempDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("skillduggery-menu-interactive-\(UUID().uuidString)", isDirectory: true)
+    try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: tempDir) }
+
+    let model = AppModel(
+      store: Store(databaseURL: tempDir.appendingPathComponent("state.sqlite")),
+      engine: ScanEngine(),
+      notifications: NotificationService(),
+      scheduler: ScheduleService(interval: 24 * 60 * 60),
+      requestNotificationPermissionOnInit: false
+    )
+
+    model.isScanRunning = true
+    #expect(model.menuStatusLabel == "Scanning...")
+
+    let focusBefore = model.settingsFocusRequestID
+    model.requestSettingsFocus()
+    #expect(model.settingsFocusRequestID != focusBefore)
+
+    let targetRunID = UUID()
+    model.openSettingsForRecentRun(targetRunID)
+    #expect(model.settingsNavigationRequest?.runID == targetRunID)
+  }
+
   @Test
   func benignFixtureProducesNoHighSignalFindings() async throws {
     let tempRoot = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("skillduggery-benign-\(UUID().uuidString)", isDirectory: true)
