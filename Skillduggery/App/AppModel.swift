@@ -29,7 +29,8 @@ struct SettingsNavigationRequest: Equatable {
     store: Store? = nil,
     engine: ScanEngine? = nil,
     notifications: NotificationService? = nil,
-    scheduler: ScheduleService? = nil
+    scheduler: ScheduleService? = nil,
+    requestNotificationPermissionOnInit: Bool = true
   ) {
     self.store = store ?? Store()
     self.engine = engine ?? ScanEngine()
@@ -37,7 +38,9 @@ struct SettingsNavigationRequest: Equatable {
     self.scheduler = scheduler ?? ScheduleService()
 
     self.scheduler.delegate = self
-    self.notifications.requestPermission()
+    if requestNotificationPermissionOnInit {
+      self.notifications.requestPermission()
+    }
 
     lifecycleObserver = AppLifecycleObserver { [weak self] in
       Task { @MainActor in
