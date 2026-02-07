@@ -34,7 +34,7 @@ Skillduggery is designed to give fast, actionable security signal while staying 
 - Daily schedule with missed-run catch-up on launch/wake
 - Auto-launch at login
 - Recent findings in menu:
-  - Severity color coding (`SAFE` blue, `LOW` green, `MEDIUM` yellow, `HIGH` orange, `CRITICAL` red)
+  - Severity color coding (`SAFE` 🔵 blue, `LOW` 🟢 green, `MEDIUM` 🟡 yellow, `HIGH` 🟠 orange, `CRITICAL` 🔴 red)
   - Per-run alert/warning counts
   - Row tap opens Settings, scrolls to Recent Findings, expands the selected run
 - Settings UI with:
